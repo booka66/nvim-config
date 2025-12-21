@@ -1,0 +1,3 @@
+nvim-pack-lock.json
+.luarc.json
+lua/dashboard_image_cache.lua
