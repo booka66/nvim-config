@@ -29,38 +29,79 @@ keyset('n', '<leader>fY', function() utils.copy_filename() end, { silent = true,
 keyset('n', 'gd', '<Plug>(coc-definition)', { silent = true })
 keyset('n', 'gr', '<Plug>(coc-references)', { silent = true })
 keyset('n', 'K', ':call CocActionAsync("doHover")<CR>', { silent = true })
-keyset('i', '<CR>', [[coc#pum#visible() ? coc#pum#confirm() : "\<CR>"]], { expr = true, silent = true })
+keyset('i', '<CR>', [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]],
+  { expr = true, silent = true })
 keyset("n", "]e", function() utils.jump_and_copy_diagnostic("next") end, { silent = true, desc = "Next error" })
 keyset("n", "[e", function() utils.jump_and_copy_diagnostic("prev") end, { silent = true, desc = "Previous error" })
 keyset("n", "<leader>ca", "<Plug>(coc-codeaction)", { silent = true })
 keyset("n", "<leader>a", ":<C-u>CocList diagnostics<cr>", { silent = true, nowait = true })
-
+keyset("n", "<leader>cr", "<Plug>(coc-rename)", { silent = true })
 
 -- Navigation
 keyset('n', '<C-h>', '<C-w>h')
 keyset('n', '<C-j>', '<C-w>j')
 keyset('n', '<C-k>', '<C-w>k')
 keyset('n', '<C-l>', '<C-w>l')
+keyset('i', '<C-h>', '<C-o><C-w>h')
+keyset('i', '<C-j>', '<C-o><C-w>j')
+keyset('i', '<C-k>', '<C-o><C-w>k')
+keyset('i', '<C-l>', '<C-o><C-w>l')
 
+-- Splits
+keyset('n', '<leader>\\', ':vsplit<CR>')
+keyset('n', '<leader>-', ':split<CR>')
 
 -- Plugins
-
 vim.pack.add({
   { src = "https://github.com/vague2k/vague.nvim" },
   { src = "https://github.com/stevearc/oil.nvim" },
   { src = "https://github.com/echasnovski/mini.pick" },
+  { src = "https://github.com/lewis6991/gitsigns.nvim" },
   { src = "https://github.com/stevearc/conform.nvim" },
   { src = "https://github.com/folke/persistence.nvim" },
   { src = "https://github.com/folke/snacks.nvim" },
   { src = "https://github.com/karb94/neoscroll.nvim" },
   { src = "https://github.com/blazkowolf/gruber-darker.nvim" },
-  { src = "https://github.com/neoclide/coc.nvim",            checkout = "v0.0.82" },
+  { src = "https://github.com/neoclide/coc.nvim",              checkout = "v0.0.82" },
   { src = "https://github.com/blazkowolf/gruber-darker.nvim" },
+  { src = "https://github.com/ellisonleao/gruvbox.nvim" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+  { src = "https://github.com/nvim-lua/plenary.nvim" },
+  { src = "https://github.com/nvim-pack/nvim-spectre" }
+})
+
+-- Enable treesitter highlighting for all buffers
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
 })
 
 require "mini.pick".setup()
-keyset('n', '<leader><leader>', function() Snacks.picker.smart() end)
-keyset('n', '<leader>h', ':Pick help<CR>')
+require "gitsigns".setup({
+  on_attach = function(bufnr)
+    local gs = require("gitsigns")
+    local function map(mode, l, r, desc)
+      vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
+    end
+    map("n", "]h", function()
+      if vim.wo.diff then
+        vim.cmd.normal({ "]c", bang = true })
+      else
+        gs.nav_hunk("next")
+      end
+    end, "Next Hunk")
+    map("n", "[h", function()
+      if vim.wo.diff then
+        vim.cmd.normal({ "[c", bang = true })
+      else
+        gs.nav_hunk("prev")
+      end
+    end, "Prev Hunk")
+    map("n", "<leader>gp", gs.preview_hunk_inline, "Preview Hunk Inline")
+    map("n", "<leader>gb", function() gs.blame() end, "Blame Buffer")
+  end,
+})
 
 require "oil".setup()
 keyset('n', '<leader>e', function()
@@ -70,6 +111,8 @@ keyset('n', '<leader>e', function()
     require('oil').open()
   end
 end)
+
+require "spectre".setup()
 
 require "conform".setup({
   formatters_by_ft = {
@@ -116,7 +159,10 @@ require "snacks".setup({
     enabled = true
   },
   statuscolumn = {
-    enabled = true
+    enabled = true,
+    git = {
+      patterns = { "GitSigns" },
+    },
   },
   scratch = {
     enabled = true,
@@ -149,6 +195,8 @@ require "snacks".setup({
     },
   },
 })
+keyset('n', '<leader><leader>', function() Snacks.picker.smart() end)
+keyset('n', '<leader>H', ':Pick help<CR>')
 keyset('n', '<leader>gg', function() Snacks.lazygit() end)
 keyset('n', '<leader>sg', function() Snacks.picker.grep() end)
 keyset('n', '<leader>sw', function() Snacks.picker.grep_word() end)
@@ -161,4 +209,28 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.cmd("colorscheme vague")
+require("gruvbox").setup({
+  terminal_colors = true,
+  undercurl = true,
+  underline = true,
+  bold = true,
+  italic = {
+    strings = true,
+    emphasis = true,
+    comments = true,
+    operators = false,
+    folds = true,
+  },
+  strikethrough = true,
+  invert_selection = true,
+  invert_signs = false,
+  invert_tabline = false,
+  invert_intend_guides = false,
+  inverse = true,
+  contrast = "",
+  palette_overrides = {},
+  overrides = {},
+  dim_inactive = false,
+  transparent_mode = false,
+})
+vim.cmd("colorscheme gruber-darker")
