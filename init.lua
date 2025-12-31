@@ -12,6 +12,9 @@ vim.g.mapleader = " "
 vim.o.signcolumn = "yes"
 vim.o.undofile = true
 vim.o.clipboard = "unnamedplus"
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.termguicolors = true
 
 
 local keyset = vim.keymap.set
@@ -36,6 +39,7 @@ keyset("n", "[e", function() utils.jump_and_copy_diagnostic("prev") end, { silen
 keyset("n", "<leader>ca", "<Plug>(coc-codeaction)", { silent = true })
 keyset("n", "<leader>a", ":<C-u>CocList diagnostics<cr>", { silent = true, nowait = true })
 keyset("n", "<leader>cr", "<Plug>(coc-rename)", { silent = true })
+keyset("n", "<leader>cl", ":CocRestart<CR>", { silent = true })
 
 -- Navigation
 keyset('n', '<C-h>', '<C-w>h')
@@ -47,9 +51,14 @@ keyset('i', '<C-j>', '<C-o><C-w>j')
 keyset('i', '<C-k>', '<C-o><C-w>k')
 keyset('i', '<C-l>', '<C-o><C-w>l')
 
+-- Tabs
+keyset('n', 'H', ':tabprevious<CR>')
+keyset('n', 'L', ':tabnext<CR>')
+keyset('n', '<leader>to', ':tabo<CR>')
+
 -- Splits
-keyset('n', '<leader>\\', ':vsplit<CR>')
-keyset('n', '<leader>-', ':split<CR>')
+keyset('n', '<leader>\\', ':vsplit<CR><C-w>l')
+keyset('n', '<leader>-', ':split<CR><C-w>j')
 
 -- Plugins
 vim.pack.add({
@@ -67,7 +76,9 @@ vim.pack.add({
   { src = "https://github.com/ellisonleao/gruvbox.nvim" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   { src = "https://github.com/nvim-lua/plenary.nvim" },
-  { src = "https://github.com/nvim-pack/nvim-spectre" }
+  { src = "https://github.com/nvim-pack/nvim-spectre" },
+  { src = "https://github.com/mg979/vim-visual-multi",         checkout = "master" },
+  { src = "https://github.com/echasnovski/mini.indentscope" },
 })
 
 -- Enable treesitter highlighting for all buffers
@@ -77,6 +88,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+require "mini.indentscope".setup()
 require "mini.pick".setup()
 require "gitsigns".setup({
   on_attach = function(bufnr)
