@@ -1,3 +1,19 @@
+-- globals
+
+--- Global to add a plugin
+---@param repo string
+---@param opts? { checkout?: string }
+function _G.add(repo, opts)
+  local spec = { src = "https://github.com/" .. repo }
+  if opts then
+    for k, v in pairs(opts) do spec[k] = v end
+  end
+  vim.pack.add({ spec })
+end
+
+_G.map = vim.keymap.set
+
+-- options
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.wrap = true

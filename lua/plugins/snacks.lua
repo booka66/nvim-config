@@ -1,4 +1,4 @@
-vim.pack.add({ { src = "https://github.com/folke/snacks.nvim" } })
+add("folke/snacks.nvim")
 
 local utils = require("utils")
 local image_data = utils.get_random_image()
@@ -33,7 +33,7 @@ require("snacks").setup({
             require("persistence").load()
           end
         },
-        { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+        { icon = " ", key = "q", desc = "Quit",      action = ":qa" },
       },
     },
     sections = {
@@ -43,16 +43,16 @@ require("snacks").setup({
         height = image_data.height,
         padding = 1,
       },
-      { section = "keys", gap = 1, padding = 1 },
+      { section = "keys",         gap = 1,   padding = 1 },
       { section = "recent_files", limit = 8, padding = 1 },
     },
   },
 })
 
-vim.keymap.set('n', '<leader><leader>', function() Snacks.picker.smart() end)
-vim.keymap.set('n', '<leader>H', ':Pick help<CR>')
-vim.keymap.set('n', '<leader>gg', function() Snacks.lazygit() end)
-vim.keymap.set('n', '<leader>sg', function() Snacks.picker.grep() end)
-vim.keymap.set('n', '<leader>sw', function() Snacks.picker.grep_word() end)
-vim.keymap.set('n', '<leader>.', function() Snacks.scratch() end)
-vim.keymap.set('n', '<leader>S', function() Snacks.scratch.select() end)
+map('n', '<leader><leader>', function() Snacks.picker.smart() end)
+map('n', '<leader>H', ':Pick help<CR>')
+map('n', '<leader>gg', function() Snacks.lazygit() end)
+map('n', '<leader>sg', function() Snacks.picker.grep() end)
+map('n', '<leader>sw', function() Snacks.picker.grep_word() end)
+map('n', '<leader>.', function() Snacks.scratch() end)
+map('n', '<leader>S', function() Snacks.scratch.select() end)

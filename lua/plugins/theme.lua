@@ -1,8 +1,6 @@
-vim.pack.add({
-  { src = "https://github.com/ellisonleao/gruvbox.nvim" },
-  { src = "https://github.com/blazkowolf/gruber-darker.nvim" },
-  { src = "https://github.com/vague2k/vague.nvim" },
-})
+add("ellisonleao/gruvbox.nvim")
+add("blazkowolf/gruber-darker.nvim")
+add("vague2k/vague.nvim")
 
 require("gruvbox").setup({
   terminal_colors = true,

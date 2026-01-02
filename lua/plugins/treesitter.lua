@@ -1,1 +1,1 @@
-vim.pack.add({ { src = "https://github.com/nvim-treesitter/nvim-treesitter" } })
+add("nvim-treesitter/nvim-treesitter")

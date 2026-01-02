@@ -1,4 +1,4 @@
-vim.pack.add({ { src = "https://github.com/lewis6991/gitsigns.nvim" } })
+add("lewis6991/gitsigns.nvim")
 
 require("gitsigns").setup({
   on_attach = function(bufnr)
@@ -22,5 +22,12 @@ require("gitsigns").setup({
     end, "Prev Hunk")
     map("n", "<leader>gp", gs.preview_hunk_inline, "Preview Hunk Inline")
     map("n", "<leader>gb", function() gs.blame() end, "Blame Buffer")
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "gitsigns-blame",
+  callback = function()
+    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = true, silent = true })
   end,
 })

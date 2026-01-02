@@ -1,7 +1,7 @@
-vim.pack.add({ { src = "https://github.com/folke/persistence.nvim" } })
+add("folke/persistence.nvim")
 
 require("persistence").setup()
 
-vim.keymap.set('n', '<leader>qs', function() require("persistence").load() end)
-vim.keymap.set('n', '<leader>ql', function() require("persistence").load({ last = true }) end)
-vim.keymap.set('n', '<leader>qd', function() require("persistence").stop() end)
+map('n', '<leader>qs', function() require("persistence").load() end)
+map('n', '<leader>ql', function() require("persistence").load({ last = true }) end)
+map('n', '<leader>qd', function() require("persistence").stop() end)

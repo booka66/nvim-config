@@ -1,8 +1,8 @@
-vim.pack.add({ { src = "https://github.com/stevearc/oil.nvim" } })
+add("stevearc/oil.nvim")
 
 require("oil").setup()
 
-vim.keymap.set('n', '<leader>e', function()
+map('n', '<leader>e', function()
   if vim.bo.filetype == 'oil' then
     require('oil').close()
   else
