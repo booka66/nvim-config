@@ -20,8 +20,9 @@ require("gitsigns").setup({
         gs.nav_hunk("prev")
       end
     end, "Prev Hunk")
-    map("n", "<leader>gp", gs.preview_hunk_inline, "Preview Hunk Inline")
+    map("n", "<leader>hp", gs.preview_hunk_inline, "Preview Hunk Inline")
     map("n", "<leader>gb", function() gs.blame() end, "Blame Buffer")
+    map("n", "<leader>hr", gs.reset_hunk, "Reset hunk")
   end,
 })
 
