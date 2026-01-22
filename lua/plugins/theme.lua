@@ -1,6 +1,7 @@
 add("ellisonleao/gruvbox.nvim")
 add("blazkowolf/gruber-darker.nvim")
 add("vague2k/vague.nvim")
+add("WTFox/jellybeans.nvim")
 
 require("gruvbox").setup({
   terminal_colors = true,
@@ -27,4 +28,4 @@ require("gruvbox").setup({
   transparent_mode = false,
 })
 
-vim.cmd("colorscheme gruber-darker")
+vim.cmd("colorscheme jellybeans")
