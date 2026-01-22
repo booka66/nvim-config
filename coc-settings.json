@@ -17,5 +17,14 @@
   "diagnostic.floatConfig": {
     "maxWidth": 80,
     "border": true
+  },
+  "signature.enable": true,
+  "signature.target": "float",
+  "signature.hideOnTextChange": false,
+  "signature.triggerSignatureWait": 0,
+  "signature.preferShownAbove": true,
+  "signature.floatConfig": {
+    "maxWidth": 80,
+    "border": true
   }
 }

@@ -13,3 +13,6 @@ map("n", "<leader>ca", "<Plug>(coc-codeaction)", { silent = true })
 map("n", "<leader>a", ":<C-u>CocList diagnostics<cr>", { silent = true, nowait = true })
 map("n", "<leader>cr", "<Plug>(coc-rename)", { silent = true })
 map("n", "<leader>cl", ":CocRestart<CR>", { silent = true })
+
+-- Signature help: <C-k> in insert mode
+map('i', '<C-k>', '<Cmd>call CocActionAsync("showSignatureHelp")<CR>', { silent = true })
