@@ -128,6 +128,34 @@ function M.copy_relative_path()
 	vim.notify("Copied: " .. filepath)
 end
 
+function M.jump_to_different_file(direction)
+  local jumplist, current_pos = unpack(vim.fn.getjumplist())
+  local current_buf = vim.api.nvim_get_current_buf()
+
+  local step = direction == 'back' and -1 or 1
+  local pos = current_pos + step
+
+  while pos >= 0 and pos < #jumplist do
+    local jump = jumplist[pos + 1]
+    if jump.bufnr ~= current_buf and vim.api.nvim_buf_is_valid(jump.bufnr) then
+      local count = math.abs(pos - current_pos)
+      local key = direction == 'back' and '<C-o>' or '<C-i>'
+      vim.cmd('normal! ' .. count .. vim.api.nvim_replace_termcodes(key, true, false, true))
+      return
+    end
+    pos = pos + step
+  end
+
+  vim.notify("No more files " .. direction, vim.log.levels.INFO)
+end
+
+function M.is_window_vertical()
+	local width = vim.api.nvim_win_get_width(0)
+	local height = vim.api.nvim_win_get_height(0)
+	-- Account for character aspect ratio (chars are ~2x taller than wide)
+	return height * 2.5 > width
+end
+
 function M.jump_and_copy_diagnostic(direction)
 	-- Jump to diagnostic
 	if direction == "next" then

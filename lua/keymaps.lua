@@ -19,6 +19,10 @@ map('i', '<C-j>', '<C-o><C-w>j')
 map('i', '<C-k>', '<C-o><C-w>k')
 map('i', '<C-l>', '<C-o><C-w>l')
 
+-- jump between files (skip same-file jumps)
+map('n', '<C-o>', function() utils.jump_to_different_file('back') end, { desc = 'Jump to previous file' })
+map('n', '<C-i>', function() utils.jump_to_different_file('forward') end, { desc = 'Jump to next file' })
+
 -- tabs
 map('n', 'H', ':tabprevious<CR>')
 map('n', 'L', ':tabnext<CR>')
