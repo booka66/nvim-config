@@ -7,6 +7,13 @@ require("snacks").setup({
   picker = {
     enabled = true,
     layout = "vertical",
+    win = {
+      input = {
+        keys = {
+          ["<c-cr>"] = { "edit_tab", mode = { "n", "i" } },
+        },
+      },
+    },
   },
   notifier = {
     enabled = true
