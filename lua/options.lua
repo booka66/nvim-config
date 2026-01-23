@@ -32,3 +32,11 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.termguicolors = true
 vim.o.updatetime = 300
+
+vim.cmd([[
+  augroup TransparentBackground
+  autocmd!
+  autocmd ColorScheme * highlight Normal ctermbg=none guibg=none
+  autocmd ColorScheme * highlight NonText ctermbg=none guibg=none
+  augroup END
+]])
